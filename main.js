@@ -770,13 +770,7 @@ function crearBoton() {
         // El botón existente está presente y el nuevo botón no está creado aún, crear el nuevo botón
         var nuevoBoton = document.createElement('button');
         nuevoBoton.innerHTML = "TEST PRINT";
-        nuevoBoton.id = "nuevoBoton"; // Asignar un nuevo ID al nuevo botón
-
-        // Copiar las clases o estilos del botón existente al nuevo botón
-        var clases = botonExistente.classList;
-        for (var i = 0; i < clases.length; i++) {
-            nuevoBoton.classList.add(clases[i]);
-        }
+        nuevoBoton.id = "nuevoBoton"; // Asignar un nuevo ID único al nuevo botón
 
         // Establecer el margen superior del nuevo botón
         nuevoBoton.style.marginTop = "20px";
@@ -787,5 +781,6 @@ function crearBoton() {
 }
 
 crearBoton();
+
 
 
