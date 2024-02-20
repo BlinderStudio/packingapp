@@ -762,3 +762,24 @@ labelElement2.style.display = "none";
 document.body.appendChild(iframe);
 }
 
+
+function crearBoton() {
+    // Obtener el botón existente
+    var botonExistente = document.getElementById('aaf_login:frm_login:btn_login_loginbutton');
+
+    // Crear un nuevo botón
+    var nuevoBoton = document.createElement('button');
+    nuevoBoton.innerHTML = "TEST PRINT";
+
+    // Copiar las clases o estilos del botón existente al nuevo botón
+    var clases = botonExistente.classList;
+    for (var i = 0; i < clases.length; i++) {
+        nuevoBoton.classList.add(clases[i]);
+    }
+
+    // Insertar el nuevo botón después del botón existente
+    botonExistente.parentNode.insertBefore(nuevoBoton, botonExistente.nextSibling);
+}
+
+// Llamar a la función para crear el botón cuando la página se cargue completamente
+window.addEventListener('load', crearBoton);
