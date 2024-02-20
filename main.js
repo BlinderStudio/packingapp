@@ -1,5 +1,31 @@
 // change 1.5
 
+// Función para obtener la fecha y la hora actual
+function mostrarFechaHora() {
+    // Obtener la fecha y la hora actual
+    var fechaHora = new Date();
+    
+    // Formatear la fecha y la hora
+    var fecha = fechaHora.toLocaleDateString(); // Formato de fecha local
+    var hora = fechaHora.toLocaleTimeString(); // Formato de hora local
+    
+    // Mostrar la fecha y la hora en un elemento HTML
+    var fechaHoraElemento = document.createElement('div');
+    fechaHoraElemento.textContent = "Fecha: " + fecha + " - Hora: " + hora;
+    fechaHoraElemento.style.position = 'fixed';
+    fechaHoraElemento.style.bottom = '10px';
+    fechaHoraElemento.style.right = '10px';
+    fechaHoraElemento.style.color = 'white'; // Cambia el color del texto si es necesario
+    fechaHoraElemento.style.backgroundColor = 'black'; // Cambia el color de fondo si es necesario
+    fechaHoraElemento.style.padding = '5px'; // Añade espacio alrededor del texto si es necesario
+    
+    // Agregar el elemento al cuerpo del documento HTML
+    document.body.appendChild(fechaHoraElemento);
+}
+
+// Llamar a la función para mostrar la fecha y la hora al cargar la página
+mostrarFechaHora();
+
 function updateIMG() {
     var URLAmazon = "http://images.amazon.com/images/P/";
 	
