@@ -1,4 +1,4 @@
-// change 2.002
+// change 2.003
 
 // Función para obtener la fecha y la hora actual
 // Función para mostrar la fecha y la hora actual
@@ -764,22 +764,23 @@ document.body.appendChild(iframe);
 
 
 function crearBoton() {
-    // Obtener el botón existente
+    // Verificar si el botón existente está presente en la página
     var botonExistente = document.getElementById('aaf_login:frm_login:btn_login_loginbutton');
+    if (botonExistente) {
+        // El botón existente está presente, crear el nuevo botón
+        var nuevoBoton = document.createElement('button');
+        nuevoBoton.innerHTML = "TEST PRINT";
 
-    // Crear un nuevo botón
-    var nuevoBoton = document.createElement('button');
-    nuevoBoton.innerHTML = "TEST PRINT";
+        // Copiar las clases o estilos del botón existente al nuevo botón
+        var clases = botonExistente.classList;
+        for (var i = 0; i < clases.length; i++) {
+            nuevoBoton.classList.add(clases[i]);
+        }
 
-    // Copiar las clases o estilos del botón existente al nuevo botón
-    var clases = botonExistente.classList;
-    for (var i = 0; i < clases.length; i++) {
-        nuevoBoton.classList.add(clases[i]);
+        // Insertar el nuevo botón después del botón existente
+        botonExistente.parentNode.insertBefore(nuevoBoton, botonExistente.nextSibling);
     }
-
-    // Insertar el nuevo botón después del botón existente
-    botonExistente.parentNode.insertBefore(nuevoBoton, botonExistente.nextSibling);
 }
 
-// Llamar a la función para crear el botón cuando la página se cargue completamente
-window.addEventListener('load', crearBoton);
+crearBoton();
+
