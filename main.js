@@ -1,4 +1,4 @@
-// change 1.7
+// change 1.8
 
 // Función para obtener la fecha y la hora actual
 // Función para mostrar la fecha y la hora actual
@@ -664,6 +664,9 @@ function LoginMod() {
   }
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    setupCustomUI();
+});
 
 function setupCustomUI() {
 const iframeContent = document.createElement('div');
