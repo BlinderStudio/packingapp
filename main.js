@@ -598,8 +598,8 @@ eliminarElementos(elementosAEliminar);
 
 //nIntervID = setInterval(updateIMG, 100);
 //nIntervID = setInterval(updateUser, 5000);
-nIntervID = setInterval(NoUser, 1000);
-nIntervID = setInterval(LoginMod, 500);
+//nIntervID = setInterval(NoUser, 1000);
+//nIntervID = setInterval(LoginMod, 500);
 
 function LoginMod() {
   console.log("La página se ha cargado completamente.");
