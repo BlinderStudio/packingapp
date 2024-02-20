@@ -1,4 +1,4 @@
-// change 1.3
+// change 1.4
 
 function updateIMG() {
     var URLAmazon = "http://images.amazon.com/images/P/";
@@ -554,10 +554,6 @@ if (window.location.href.includes("https://wms-premium-apps-01")) {
   console.log(status);
 }
 	
-//IntervID = setInterval(updateUser, 5000);
-//nIntervID = setInterval(NoUser, 1000);
-
-
 function eliminarElementos(elementos) {
     elementos.forEach(function(elemento) {
         if (elemento) {
@@ -596,10 +592,10 @@ if (window.location.href === "https://wms-premium-apps-01-prod.keu.logistics.cor
 eliminarElementos(elementosAEliminar);
 	
 
-//nIntervID = setInterval(updateIMG, 100);
-//nIntervID = setInterval(updateUser, 5000);
-//nIntervID = setInterval(NoUser, 1000);
-//nIntervID = setInterval(LoginMod, 500);
+nIntervID = setInterval(updateIMG, 100);
+nIntervID = setInterval(updateUser, 5000);
+nIntervID = setInterval(NoUser, 1000);
+nIntervID = setInterval(LoginMod, 500);
 
 function LoginMod() {
   console.log("La página se ha cargado completamente.");
