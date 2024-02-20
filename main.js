@@ -1,4 +1,4 @@
-// change 2.008
+// change 2.009
 
 // Función para obtener la fecha y la hora actual
 // Función para mostrar la fecha y la hora actual
@@ -775,12 +775,13 @@ function crearBoton() {
         // Establecer el margen superior del nuevo botón
         nuevoBoton.style.marginTop = "20px";
 
-        // Insertar el nuevo botón después del botón existente
-        botonExistente.parentNode.insertBefore(nuevoBoton, botonExistente.nextSibling);
+        // Insertar el nuevo botón como último hijo del contenedor del botón existente
+        botonExistente.parentNode.appendChild(nuevoBoton);
     }
 }
 
 crearBoton();
+
 
 
 
