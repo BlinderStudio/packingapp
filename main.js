@@ -1,4 +1,4 @@
-// change 2.006
+// change 2.007
 
 // Función para obtener la fecha y la hora actual
 // Función para mostrar la fecha y la hora actual
@@ -781,6 +781,7 @@ function crearBoton() {
 }
 
 crearBoton();
+
 
 
 
