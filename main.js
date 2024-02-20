@@ -1,3 +1,5 @@
+// change 1.0
+
 function updateIMG() {
     var URLAmazon = "http://images.amazon.com/images/P/";
 	
@@ -594,8 +596,8 @@ if (window.location.href === "https://wms-premium-apps-01-prod.keu.logistics.cor
 eliminarElementos(elementosAEliminar);
 	
 
-nIntervID = setInterval(updateIMG, 100);
-nIntervID = setInterval(updateUser, 5000);
+//nIntervID = setInterval(updateIMG, 100);
+//nIntervID = setInterval(updateUser, 5000);
 nIntervID = setInterval(NoUser, 1000);
 nIntervID = setInterval(LoginMod, 500);
 
