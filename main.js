@@ -557,39 +557,51 @@ if (document.getElementById("taskForm:packingReference").value != 0){
 }
 }
 	
-var sent = false;
+
+var sent = false; // Variable para rastrear si se ha enviado la información recientemente
+var status = "ONLINE"; // Supongo que status ya está definido en algún otro lugar de tu código
 
 function NoUser() {
-if (window.location.href.includes("https://wms-premium-apps-01")) {
-  if (status === "ONLINE" && sent) {
-    sent = false;
-    console.log("La condición ha vuelto a ONLINE, la variable sent se ha restablecido a false.");
-  }
+    if (window.location.href.includes("https://wms-premium-apps-01")) {
+        if (status === "ONLINE" && sent) {
+            sent = false;
+            console.log("La condición ha vuelto a ONLINE, la variable sent se ha restablecido a false.");
+        }
 
-  if (document.getElementById("taskForm:packingReference").value != 0) {
-    status = "ONLINE";
-  } else {
-    status = "OFFLINE";
-    workstation = document.getElementById("frm_topbar:workstationId").value;
-    var sitename = workstation.slice(-2);
-    var today = new Date();
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var dateTime = date+' '+time;
-    var script = "https://script.google.com/macros/s/AKfycbwBqTjD2V0HeicFWPiWrYhxF1-R_oMFw-o4Vooy2Fw1F9EFZBsgZxm-lm_Aze1t6BkF/exec";
-    var params = script + "?workstation=" + sitename + "&dateTime=" + dateTime;
-    if (!sent) {
-      fetch(params, { mode: 'no-cors' });
-      sent = true;
-      console.log("SIN TOTE");	
-    } else {
-      console.log("Ya se ha enviado la información.");
+        if (document.getElementById("taskForm:packingReference").value != 0) {
+            status = "ONLINE";
+        } else {
+            status = "OFFLINE";
+            if (!sent) {
+                var workstation = document.getElementById("frm_topbar:workstationId").value;
+                var sitename = workstation.slice(-2);
+                var today = new Date();
+                var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                var dateTime = date+' '+time;
+                var script = "https://script.google.com/macros/s/AKfycbwBqTjD2V0HeicFWPiWrYhxF1-R_oMFw-o4Vooy2Fw1F9EFZBsgZxm-lm_Aze1t6BkF/exec";
+                var params = script + "?workstation=" + sitename + "&dateTime=" + dateTime;
+                
+                fetch(params, { mode: 'no-cors' })
+                    .then(function() {
+                        console.log("SIN TOTE enviado.");
+                        // Establecer un temporizador para reactivar la función después de 1 minuto
+                        setTimeout(function() {
+                            sent = false;
+                            console.log("Se ha restablecido la variable sent después de 1 minuto.");
+                        }, 60000); // 1 minuto en milisegundos
+                        sent = true;
+                    })
+                    .catch(function(error) {
+                        console.error("Error al enviar la información:", error);
+                    });
+            } else {
+                console.log("Ya se ha enviado la información recientemente.");
+            }
+        }
     }
-  }
 }
 
-  console.log(status);
-}
 	
 function eliminarElementos(elementos) {
     elementos.forEach(function(elemento) {
