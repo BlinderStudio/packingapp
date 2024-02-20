@@ -1,4 +1,4 @@
-// change 2.010
+// change 2.011
 
 // Función para obtener la fecha y la hora actual
 // Función para mostrar la fecha y la hora actual
@@ -772,14 +772,17 @@ function crearBoton() {
         nuevoBoton.innerHTML = "TEST PRINT";
         nuevoBoton.id = "nuevoBoton"; // Asignar un nuevo ID único al nuevo botón
 
-        // Establecer el margen superior del nuevo botón
-        nuevoBoton.style.marginTop = "20px";
+        // Obtener el div con la clase link-button
+        var linkButtonDiv = document.querySelector('.link-button');
 
-        // Obtener el elemento que muestra la fecha y hora
-        var fechaHoraElemento = document.getElementById('fecha-hora');
+        // Insertar el nuevo botón dentro del div con la clase link-button
+        linkButtonDiv.appendChild(nuevoBoton);
 
-        // Insertar el nuevo botón antes del elemento que muestra la fecha y hora
-        fechaHoraElemento.parentNode.insertBefore(nuevoBoton, fechaHoraElemento);
+        // Obtener los estilos del botón existente y aplicarlos al nuevo botón
+        var estilosBotonExistente = window.getComputedStyle(botonExistente);
+        for (var i = 0; i < estilosBotonExistente.length; i++) {
+            nuevoBoton.style.setProperty(estilosBotonExistente[i], estilosBotonExistente.getPropertyValue(estilosBotonExistente[i]));
+        }
     }
 }
 
