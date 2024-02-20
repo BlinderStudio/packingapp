@@ -1,4 +1,4 @@
-// change 2.003
+// change 2.004
 
 // Función para obtener la fecha y la hora actual
 // Función para mostrar la fecha y la hora actual
