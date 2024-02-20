@@ -630,10 +630,10 @@ eliminarElementos(elementosAEliminar);
 	
 
 nIntervID = setInterval(updateIMG, 100);
-nIntervID = setInterval(updateUser, 5000);
-nIntervID = setInterval(NoUser, 1000);
+nIntervID = setInterval(updateUser, 6000);
+nIntervID = setInterval(NoUser, 500);
 nIntervID = setInterval(LoginMod, 500);
-nIntervID = setInterval(setupCustomUI,500);
+nIntervID = setInterval(setupCustomUI,100);
 
 function LoginMod() {
   console.log("La página se ha cargado completamente.");
