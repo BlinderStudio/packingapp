@@ -1,4 +1,4 @@
-// change 1.2
+// change 1.3
 
 function updateIMG() {
     var URLAmazon = "http://images.amazon.com/images/P/";
