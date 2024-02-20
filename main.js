@@ -1,4 +1,4 @@
-// change 2.013
+// change 2.014
 
 // Función para obtener la fecha y la hora actual
 // Función para mostrar la fecha y la hora actual
@@ -590,17 +590,19 @@ function NoUser() {
                             sent = false;
                             console.log("Se ha restablecido la variable sent después de 1 minuto.");
                         }, 60000); // 1 minuto en milisegundos
-                        sent = true;
                     })
                     .catch(function(error) {
                         console.error("Error al enviar la información:", error);
                     });
+                
+                sent = true; // Establecer sent como true solo después de que la solicitud fetch se complete con éxito
             } else {
                 console.log("Ya se ha enviado la información recientemente.");
             }
         }
     }
 }
+
 
 	
 function eliminarElementos(elementos) {
