@@ -669,6 +669,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function setupCustomUI() {
+
+if (document.getElementById('selectOption')) {
+        return;
+    }	
 const iframeContent = document.createElement('div');
 iframeContent.style.position = 'fixed';
 iframeContent.style.bottom = '0';
