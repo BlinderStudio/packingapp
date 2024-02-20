@@ -766,10 +766,11 @@ document.body.appendChild(iframe);
 function crearBoton() {
     // Verificar si el botón existente está presente en la página
     var botonExistente = document.getElementById('aaf_login:frm_login:btn_login_loginbutton');
-    if (botonExistente) {
-        // El botón existente está presente, crear el nuevo botón
+    if (botonExistente && !document.getElementById('nuevoBoton')) {
+        // El botón existente está presente y el nuevo botón no está creado aún, crear el nuevo botón
         var nuevoBoton = document.createElement('button');
         nuevoBoton.innerHTML = "TEST PRINT";
+        nuevoBoton.id = "nuevoBoton"; // Asignar un nuevo ID al nuevo botón
 
         // Copiar las clases o estilos del botón existente al nuevo botón
         var clases = botonExistente.classList;
@@ -777,10 +778,14 @@ function crearBoton() {
             nuevoBoton.classList.add(clases[i]);
         }
 
+        // Establecer el margen superior del nuevo botón
+        nuevoBoton.style.marginTop = "20px";
+
         // Insertar el nuevo botón después del botón existente
         botonExistente.parentNode.insertBefore(nuevoBoton, botonExistente.nextSibling);
     }
 }
 
 crearBoton();
+
 
