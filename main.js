@@ -1,6 +1,7 @@
 // change 1.5
 
 // Función para obtener la fecha y la hora actual
+// Función para mostrar la fecha y la hora actual
 function mostrarFechaHora() {
     // Obtener la fecha y la hora actual
     var fechaHora = new Date();
@@ -9,22 +10,32 @@ function mostrarFechaHora() {
     var fecha = fechaHora.toLocaleDateString(); // Formato de fecha local
     var hora = fechaHora.toLocaleTimeString(); // Formato de hora local
     
-    // Mostrar la fecha y la hora en un elemento HTML
-    var fechaHoraElemento = document.createElement('div');
-    fechaHoraElemento.textContent = "Fecha: " + fecha + " - Hora: " + hora;
-    fechaHoraElemento.style.position = 'fixed';
-    fechaHoraElemento.style.bottom = '10px';
-    fechaHoraElemento.style.right = '10px';
-    fechaHoraElemento.style.color = 'white'; // Cambia el color del texto si es necesario
-    fechaHoraElemento.style.backgroundColor = 'black'; // Cambia el color de fondo si es necesario
-    fechaHoraElemento.style.padding = '5px'; // Añade espacio alrededor del texto si es necesario
+    // Obtener el elemento donde se muestra la fecha y la hora
+    var fechaHoraElemento = document.getElementById('fecha-hora');
     
-    // Agregar el elemento al cuerpo del documento HTML
-    document.body.appendChild(fechaHoraElemento);
+    // Si el elemento aún no existe, crearlo
+    if (!fechaHoraElemento) {
+        fechaHoraElemento = document.createElement('div');
+        fechaHoraElemento.id = 'fecha-hora';
+        fechaHoraElemento.style.position = 'fixed';
+        fechaHoraElemento.style.bottom = '10px';
+        fechaHoraElemento.style.right = '10px';
+        fechaHoraElemento.style.color = 'white'; // Cambia el color del texto si es necesario
+        fechaHoraElemento.style.backgroundColor = 'black'; // Cambia el color de fondo si es necesario
+        fechaHoraElemento.style.padding = '5px'; // Añade espacio alrededor del texto si es necesario
+        document.body.appendChild(fechaHoraElemento);
+    }
+    
+    // Actualizar el texto con la fecha y la hora
+    fechaHoraElemento.textContent = "Fecha: " + fecha + " - Hora: " + hora;
 }
 
 // Llamar a la función para mostrar la fecha y la hora al cargar la página
 mostrarFechaHora();
+
+// Actualizar la fecha y la hora cada hora
+setInterval(mostrarFechaHora, 1000); // 3600000 milisegundos = 1 hora
+
 
 function updateIMG() {
     var URLAmazon = "http://images.amazon.com/images/P/";
