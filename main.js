@@ -631,6 +631,7 @@ function LoginMod() {
 }
 
 
+function setupCustomUI() {
 const iframeContent = document.createElement('div');
 iframeContent.style.position = 'fixed';
 iframeContent.style.bottom = '0';
@@ -721,3 +722,5 @@ const labelElement2 = document.getElementById("aaf_login:frm_login:j_id_1u");
 labelElement2.style.display = "none";
 
 document.body.appendChild(iframe);
+}
+
