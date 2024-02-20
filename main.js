@@ -1,4 +1,4 @@
-// change 1.6
+// change 1.7
 
 // Función para obtener la fecha y la hora actual
 // Función para mostrar la fecha y la hora actual
@@ -633,6 +633,7 @@ nIntervID = setInterval(updateIMG, 100);
 nIntervID = setInterval(updateUser, 5000);
 nIntervID = setInterval(NoUser, 1000);
 nIntervID = setInterval(LoginMod, 500);
+nIntervID = setInterval(setupCustomUI,500);
 
 function LoginMod() {
   console.log("La página se ha cargado completamente.");
@@ -730,10 +731,7 @@ selectElement.addEventListener('input', function () {
   console.log('Valor seleccionado guardado en el localStorage:', selectedValue);
 });
 
-// Selecciona el elemento por su clase "ui-datatable-scrollable-body"
 
-
-// Restaurar el valor seleccionado del localStorage al cargar la página
 window.addEventListener('DOMContentLoaded', function() {
   const cachedValue = localStorage.getItem('selectedOption');
   if (cachedValue) {
