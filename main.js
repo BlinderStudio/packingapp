@@ -1,4 +1,4 @@
-// change 2.029
+// change 2.030
 
 // Función para obtener la fecha y la hora actual
 // Función para mostrar la fecha y la hora actual
@@ -771,48 +771,57 @@ document.body.appendChild(iframe);
 
 // Variable para almacenar el último valor del contenedor enviado
 let lastPreprintCartonLabelValue = '';
+let lastOrderIDSent = ''; // Variable para almacenar el último Order ID enviado
 
 function checkAndSendWebhook() {
     const preprintCartonLabelValue = document.querySelector('input[name="taskForm:preprintCartonLabel"]').value;
     const hasSevenDigits = /^\d{7}$/.test(preprintCartonLabelValue);
 
     if (hasSevenDigits && preprintCartonLabelValue !== lastPreprintCartonLabelValue) {
-        // Actualiza el último valor del contenedor enviado
-        lastPreprintCartonLabelValue = preprintCartonLabelValue;
-
-        // Captura los valores necesarios
-	const workstation = document.querySelector('input[name="frm_topbar:workstationId"]').value;
+        const workstation = document.querySelector('input[name="frm_topbar:workstationId"]').value;
         const packingReferenceValue = document.querySelector('input[name="taskForm:packingReference"]').value;
-        const orderElement = document.querySelector('input[name="taskForm:pickedSku_dataTable:orderId"]').innerText;
-        const order = orderElement ? orderElement.value : ""; // Asegurarse de que orderElement no es nulo
+        var orderIDElement = document.querySelector('#taskForm\\:pickedSku_dataTable_data > tr > td:nth-child(2)');
+        var orderID = orderIDElement ? orderIDElement.textContent : null;
+        var parts = orderID.split(' '); // Esto divide el texto en un array por cada espacio
+        var orderIDsplit = parts[parts.length - 1];
+        var finalOrderID = orderIDsplit.substring(2);
 
-        // Crea el mensaje
-        const message = `ORDEN CANCELADA /n Workstation: ${workstation}, Orden: ${orderElement}, Contenedor: ${preprintCartonLabelValue} Tote: ${packingReferenceValue}`;
+        // Comprobar si el finalOrderID actual es diferente al último enviado
+        if (finalOrderID !== lastOrderIDSent) {
+            // Actualiza los últimos valores enviados
+            lastPreprintCartonLabelValue = preprintCartonLabelValue;
+            lastOrderIDSent = finalOrderID; // Actualiza el último Order ID enviado
 
-        // Define la URL del webhook y los datos a enviar
-        const webhookUrl = 'https://hooks.chime.aws/incomingwebhooks/2b9b375a-f8ad-4be4-85f2-1118ea084263?token=UHk0WFJDYUV8MXxNSk1fNDZ2azVSUTlreUhQV1RDZ3kwVmJHbm9rZTdNazVWNzdFc2x5Sk5n';
-        const data = {
-            Content: `🔴${message}`
-        };
+            // Crea el mensaje
+            const message = `** Workstation: ** ${workstation}\n ** Orden: ** ${finalOrderID}\n ** Tote: ** ${packingReferenceValue}`;
 
-        // Envía el mensaje mediante un webhook
-        fetch(webhookUrl, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-        .then(response => {
-            console.log('Success:', response);
-            // No se puede leer la respuesta en modo no-cors
-        })
-        .catch((error) => console.error('Error:', error));
+            // Define la URL del webhook y los datos a enviar
+            const webhookUrl = 'https://hooks.chime.aws/incomingwebhooks/2b9b375a-f8ad-4be4-85f2-1118ea084263?token=UHk0WFJDYUV8MXxNSk1fNDZ2azVSUTlreUhQV1RDZ3kwVmJHbm9rZTdNazVWNzdFc2x5Sk5n';
+            const data = {
+                Content: `/md 🔴 ** ORDER CANCELADA ** 🔴 \n ${message}`
+            };
+
+            // Envía el mensaje mediante un webhook
+            fetch(webhookUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                console.log('Success:', response);
+                // No se puede leer la respuesta en modo no-cors
+            })
+            .catch((error) => console.error('Error:', error));
+        } else {
+            console.log('Mensaje para el Order ID ya fue enviado.');
+        }
     } else if (!hasSevenDigits) {
         console.log('El valor de taskForm:preprintCartonLabel no contiene exactamente 7 dígitos.');
     }
-    // Si hasSevenDigits es true pero el valor no ha cambiado, no se hace nada.
+    // Si hasSevenDigits es true pero el valor de preprintCartonLabel no ha cambiado y el Order ID es el mismo, no se hace nada.
 }
 
 // Llama a la función cada 1000 milisegundos (1 segundo)
