@@ -1,19 +1,13 @@
-// change 2.034
+// change 2.035
 
-// Función para obtener la fecha y la hora actual
-// Función para mostrar la fecha y la hora actual
 function mostrarFechaHora() {
-    // Obtener la fecha y la hora actual
     var fechaHora = new Date();
     
-    // Formatear la fecha y la hora
     var fecha = fechaHora.toLocaleDateString(); // Formato de fecha local
     var hora = fechaHora.toLocaleTimeString(); // Formato de hora local
     
-    // Obtener el elemento donde se muestra la fecha y la hora
     var fechaHoraElemento = document.getElementById('fecha-hora');
     
-    // Si el elemento aún no existe, crearlo
     if (!fechaHoraElemento) {
         fechaHoraElemento = document.createElement('div');
         fechaHoraElemento.id = 'fecha-hora';
@@ -26,14 +20,11 @@ function mostrarFechaHora() {
         document.body.appendChild(fechaHoraElemento);
     }
     
-    // Actualizar el texto con la fecha y la hora
     fechaHoraElemento.textContent = "Fecha: " + fecha + " - Hora: " + hora;
 }
 
-// Llamar a la función para mostrar la fecha y la hora al cargar la página
 mostrarFechaHora();
 
-// Actualizar la fecha y la hora cada hora
 setInterval(mostrarFechaHora, 1000); // 3600000 milisegundos = 1 hora
 
 
@@ -55,30 +46,20 @@ if (packingMaterialElement) {
 
 var skuDataTable = document.getElementById("taskForm:sku_dataTable_data");
 
-// Verifica si la tabla existe
 if (skuDataTable) {
-  // Obtiene todas las filas de la tabla
   var rows = skuDataTable.getElementsByTagName("tr");
 
-  // Itera a través de las filas
   for (var i = 0; i < rows.length; i++) {
-    // Obtiene todas las celdas de la fila actual
     var cells = rows[i].getElementsByTagName("td");
 
-    // Verifica si la fila tiene al menos 7 celdas (séptima columna)
     if (cells.length >= 7) {
-      // Obtén el valor de la cuarta columna (índice 3)
       var valorColumna4 = cells[4].textContent;
 
-      // Aplica un estilo CSS para quitar la negrita
       valorColumna4 = "<span style='font-weight: normal;'>" + valorColumna4 + "</span>";
 
-      // Verifica si cells[1] ya ha sido modificado
       if (!cells[1].classList.contains("modified")) {
-        // Mantén el contenido original de cells[1] y agrega valorColumna4 con un salto de línea
         cells[1].innerHTML += "<br>" + valorColumna4;
 
-        // Marca cells[1] como modificado para evitar duplicaciones
         cells[1].classList.add("modified");
       }
 
