@@ -834,28 +834,31 @@ function createOrUpdateButtonBelowAafLoginFrmLogin() {
         newButton.id = 'printtest';
         newButton.innerHTML = 'TEST PRINT';
         newButton.className = 'ui-button ui-button-text-only';
-      
-       newButton.style.width = '100%';
+        newButton.style.width = '100%';
         newButton.style.height = '30px';
 
-        // Encuentra el contenedor aaf_login:frm_login por ID
         var container = document.getElementById('aaf_login:frm_login');
         if (!container) {
             console.log('El contenedor aaf_login:frm_login no se encontró.');
             return; // Salir si no se encuentra el contenedor
         }
 
-        // Añade el nuevo botón al final del contenedor aaf_login:frm_login
         container.appendChild(newButton);
 
-        // Opcional: Añadir un manejador de evento de clic para el nuevo botón
         newButton.addEventListener('click', function(event) {
             event.stopPropagation(); // Prevenir la propagación del evento
-            // Acciones a realizar cuando se haga clic en el nuevo botón
+            var originalText = this.innerHTML;
+            this.innerHTML = 'IMPRIMIENDO';
+            setTimeout(function() {
+                newButton.innerHTML = originalText; // Restaurar el texto original después de 1 segundo
+            }, 1000);
             console.log('Nuevo botón clickeado');
         });
     }
 }
+
+setInterval(createOrUpdateButtonBelowAafLoginFrmLogin, 500);
+
 
 
 
