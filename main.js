@@ -840,11 +840,6 @@ function createOrUpdatePrintLabel() {
         container.appendChild(printLabel);
     }
 }
-
-// Llama a la función cuando se cargue la página
-createOrUpdatePrintLabel();
-
-
 // Llama a la función cuando se cargue la página
 createOrUpdatePrintLabel();
 
