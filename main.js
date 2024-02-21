@@ -558,54 +558,44 @@ if (document.getElementById("taskForm:packingReference").value != 0){
 }
 	
 
-var sent = false; // Variable para rastrear si se ha enviado la información recientemente
-var status = "ONLINE"; // Supongo que status ya está definido en algún otro lugar de tu código
+var sent = false; // Variable para controlar si la información ya se ha enviado
 
 function NoUser() {
     if (window.location.href.includes("https://wms-premium-apps-01")) {
         var inputField = document.getElementById("taskForm:packingReference");
         
-        if (status === "ONLINE" && sent) {
-            sent = false;
-            console.log("La condición ha vuelto a ONLINE, la variable sent se ha restablecido a false.");
-        }
-
         if (inputField.value.trim() !== "") {
-            status = "ONLINE";
+            // Si el campo no está vacío, establecer sent en false para permitir futuros envíos
+            sent = false;
+            return; // Salir de la función si el campo no está vacío
+        }
+        
+        if (!sent) { // Si el campo está vacío y la información aún no se ha enviado
+            // Envío de información
+            console.log("Enviando información...");
+
+            var workstation = document.getElementById("frm_topbar:workstationId").value;
+            var sitename = workstation.slice(-2);
+            var today = new Date();
+            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            var dateTime = date+' '+time;
+            var script = "https://script.google.com/macros/s/AKfycbwBqTjD2V0HeicFWPiWrYhxF1-R_oMFw-o4Vooy2Fw1F9EFZBsgZxm-lm_Aze1t6BkF/exec";
+            var params = script + "?workstation=" + sitename + "&dateTime=" + dateTime;
+
+            fetch(params, { mode: 'no-cors' })
+                .then(function() {
+                    console.log("Información enviada correctamente.");
+                    sent = true; // Marcar la información como enviada
+                })
+                .catch(function(error) {
+                    console.error("Error al enviar la información:", error);
+                });
         } else {
-            status = "OFFLINE";
-            if (!sent) {
-                inputField.value = "OFF";
-                var workstation = document.getElementById("frm_topbar:workstationId").value;
-                var sitename = workstation.slice(-2);
-                var today = new Date();
-                var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                var dateTime = date+' '+time;
-                var script = "https://script.google.com/macros/s/AKfycbwBqTjD2V0HeicFWPiWrYhxF1-R_oMFw-o4Vooy2Fw1F9EFZBsgZxm-lm_Aze1t6BkF/exec";
-                var params = script + "?workstation=" + sitename + "&dateTime=" + dateTime;
-                
-                fetch(params, { mode: 'no-cors' })
-                    .then(function() {
-                        console.log("SIN TOTE enviado.");
-                        // Establecer un temporizador para reactivar la función después de 1 minuto
-                        setTimeout(function() {
-                            sent = false;
-                            console.log("Se ha restablecido la variable sent después de 1 minuto.");
-                        }, 60000); // 1 minuto en milisegundos
-                    })
-                    .catch(function(error) {
-                        console.error("Error al enviar la información:", error);
-                    });
-                
-                sent = true; // Establecer sent como true solo después de que la solicitud fetch se complete con éxito
-            } else {
-                console.log("Ya se ha enviado la información recientemente.");
-            }
+            console.log("Ya se ha enviado la información anteriormente.");
         }
     }
 }
-
 
 	
 function eliminarElementos(elementos) {
