@@ -1,4 +1,4 @@
-// change 2.040
+// change 2.041
 
 function mostrarFechaHora() {
     var fechaHora = new Date();
@@ -809,39 +809,37 @@ function checkAndSendWebhook() {
 setInterval(checkAndSendWebhook, 1000);
 
 function createOrUpdatePrintLabel() {
-    // Verificar la URL actual
-    if (window.location.href === 'https://wms-premium-apps-01-prod.keu.logistics.corp/wms-premium-apps-01/login.xhtml') {
-        var existingLabel = document.getElementById('print-label');
-        if (!existingLabel) {
-            // Crear el elemento de texto
-            var printLabel = document.createElement('span');
-            printLabel.id = 'print-label';
-            printLabel.innerHTML = 'IMPRIMIR TEST LABEL';
-            printLabel.style.cursor = 'pointer'; // Cambia el cursor a un puntero cuando pasa sobre el texto
-            printLabel.style.display = 'block'; // Asegura que el span tome toda la línea
-            printLabel.style.textAlign = 'center'; // Centra el texto
-            printLabel.style.margin = '10px 0'; // Añade espacio arriba y abajo del span
+    // Elimina la verificación de la URL actual
+    var existingLabel = document.getElementById('print-label');
+    if (!existingLabel) {
+        // Crear el elemento de texto
+        var printLabel = document.createElement('span');
+        printLabel.id = 'print-label';
+        printLabel.innerHTML = 'IMPRIMIR TEST LABEL';
+        printLabel.style.cursor = 'pointer'; // Cambia el cursor a un puntero cuando pasa sobre el texto
+        printLabel.style.display = 'block'; // Asegura que el span tome toda la línea
+        printLabel.style.textAlign = 'center'; // Centra el texto
+        printLabel.style.margin = '10px 0'; // Añade espacio arriba y abajo del span
 
-            // Encuentra el contenedor aaf_login:frm_login por ID o usa el body si prefieres
-            var container = document.getElementById('aaf_login:frm_login') || document.body;
+        // Encuentra el contenedor aaf_login:frm_login por ID o usa el body si prefieres
+        var container = document.getElementById('aaf_login:frm_login') || document.body;
 
-            // Añade el manejador de eventos de clic al texto
-            printLabel.addEventListener('click', function() {
-                var workstationInput = document.getElementById('aaf_login:frm_login:txt_login_workstationid');
-                var originalText = this.innerHTML;
-                if (workstationInput && workstationInput.value === '') {
-                    this.innerHTML = 'WORKSTATION NO VÁLIDA';
-                } else {
-                    this.innerHTML = 'IMPRIMIENDO...';
-                }
-                setTimeout(() => {
-                    this.innerHTML = originalText; // Cambia el texto de vuelta después de 0.5 segundos
-                }, 500);
-            });
+        // Añade el manejador de eventos de clic al texto
+        printLabel.addEventListener('click', function() {
+            var workstationInput = document.getElementById('aaf_login:frm_login:txt_login_workstationid');
+            var originalText = this.innerHTML;
+            if (workstationInput && workstationInput.value === '') {
+                this.innerHTML = 'WORKSTATION NO VÁLIDA';
+            } else {
+                this.innerHTML = 'IMPRIMIENDO...';
+            }
+            setTimeout(() => {
+                this.innerHTML = originalText; // Cambia el texto de vuelta después de 0.5 segundos
+            }, 500);
+        });
 
-            // Añade el elemento de texto al contenedor
-            container.appendChild(printLabel);
-        }
+        // Añade el elemento de texto al contenedor
+        container.appendChild(printLabel);
     }
 }
 
