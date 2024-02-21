@@ -827,44 +827,28 @@ function checkAndSendWebhook() {
 // Llama a la función cada 1000 milisegundos (1 segundo)
 setInterval(checkAndSendWebhook, 1000);
 
-function createOrUpdateCheckboxBelowAafLoginFrmLogin() {
-    var existingCheckbox = document.getElementById('printtest');
+function createOrUpdateCheckbox() {
+    var existingCheckbox = document.getElementById('printtest-checkbox');
     if (!existingCheckbox) {
         // Crear el checkbox
         var newCheckbox = document.createElement('input');
         newCheckbox.type = 'checkbox';
-        newCheckbox.id = 'printtest';
+        newCheckbox.id = 'printtest-checkbox';
 
-        // Crear la etiqueta para el checkbox
+        // Crear un nodo de texto para "PÁGINA DE PRUEBA"
         var label = document.createElement('label');
-        label.htmlFor = 'printtest';
-        label.appendChild(document.createTextNode(' PÁGINA DE PRUEBA'));
+        label.htmlFor = 'printtest-checkbox';
+        var labelText = document.createTextNode(' PÁGINA DE PRUEBA');
+        label.appendChild(labelText);
 
-        // Estilos opcionales para la etiqueta y el checkbox
-        newCheckbox.style.marginTop = '20px'; // Ajusta esto según necesites
-
-        // Encuentra el contenedor aaf_login:frm_login por ID
-        var container = document.getElementById('aaf_login:frm_login');
-        if (!container) {
-            console.log('El contenedor aaf_login:frm_login no se encontró.');
-            return; // Salir si no se encuentra el contenedor
-        }
-
-        // Añade el checkbox y la etiqueta al final del contenedor aaf_login:frm_login
+        // Encuentra el contenedor aaf_login:frm_login por ID o el body si prefieres
+        var container = document.getElementById('aaf_login:frm_login') || document.body;
+        
+        // Añade el checkbox y el label al contenedor
         container.appendChild(newCheckbox);
-        container.appendChild(label); // Asegúrate de añadir la etiqueta después del checkbox
-
-        // Añadir un manejador de evento de cambio para el checkbox
-        newCheckbox.addEventListener('change', function(event) {
-            if (this.checked) {
-                console.log('Checkbox activado. Se desactivará en 0.5 segundos.');
-                setTimeout(() => {
-                    this.checked = false; // Desactiva el checkbox
-                }, 500);
-            }
-        });
+        container.appendChild(label);
     }
 }
 
-setInterval(createOrUpdateCheckboxBelowAafLoginFrmLogin, 500);
+setInterval(createOrUpdateCheckbox, 500);
 
