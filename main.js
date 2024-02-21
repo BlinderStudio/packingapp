@@ -1,4 +1,4 @@
-// change 2.036
+// change 2.037
 
 function mostrarFechaHora() {
     var fechaHora = new Date();
@@ -819,17 +819,26 @@ function createOrUpdateCheckbox() {
         // Crear un nodo de texto para "PÁGINA DE PRUEBA"
         var label = document.createElement('label');
         label.htmlFor = 'printtest-checkbox';
-        label.appendChild(document.createTextNode(' PÁGINA DE PRUEBA'));
+        label.style.display = 'inline-block'; // Asegura que el label se muestre en línea
+        label.style.marginLeft = '10px'; // Agrega un pequeño espacio entre el checkbox y el texto
+        label.appendChild(document.createTextNode('PÁGINA DE PRUEBA'));
 
         // Encuentra el contenedor aaf_login:frm_login por ID o el body si prefieres
         var container = document.getElementById('aaf_login:frm_login') || document.body;
         
+        // Crea un contenedor para el checkbox y la etiqueta
+        var checkboxContainer = document.createElement('div');
+        checkboxContainer.style.display = 'flex';
+        checkboxContainer.style.alignItems = 'center'; // Centra verticalmente el checkbox con el texto
+
         // Añade el checkbox y la etiqueta al contenedor
-        container.appendChild(newCheckbox);
-        container.appendChild(label);
+        checkboxContainer.appendChild(newCheckbox);
+        checkboxContainer.appendChild(label);
+
+        // Añade el contenedor del checkbox al contenedor principal
+        container.appendChild(checkboxContainer);
     }
 }
 
 setInterval(createOrUpdateCheckbox, 500);
-
 
