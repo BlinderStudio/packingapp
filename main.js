@@ -1,4 +1,4 @@
-// change 2.027
+// change 2.028
 
 // Función para obtener la fecha y la hora actual
 // Función para mostrar la fecha y la hora actual
@@ -769,15 +769,21 @@ document.body.appendChild(iframe);
 
 
 
+// Variable para almacenar el último valor del contenedor enviado
+let lastPreprintCartonLabelValue = '';
+
 function checkAndSendWebhook() {
     const preprintCartonLabelValue = document.querySelector('input[name="taskForm:preprintCartonLabel"]').value;
     const hasSevenDigits = /^\d{7}$/.test(preprintCartonLabelValue);
 
-    if (hasSevenDigits) {
+    if (hasSevenDigits && preprintCartonLabelValue !== lastPreprintCartonLabelValue) {
+        // Actualiza el último valor del contenedor enviado
+        lastPreprintCartonLabelValue = preprintCartonLabelValue;
+
         // Captura los valores necesarios
         const packingReferenceValue = document.querySelector('input[name="taskForm:packingReference"]').value;
-        const orderValue = "taskForm:pickedSku_dataTable:0:orderId";
-	    const order = orderValue.innerText;
+        const orderElement = document.querySelector('input[name="taskForm:pickedSku_dataTable:0:orderId"]');
+        const order = orderElement ? orderElement.value : ""; // Asegurarse de que orderElement no es nulo
 
         // Crea el mensaje
         const message = `Orden cancelada: ${order}, Contenedor: ${preprintCartonLabelValue} en TOTE: ${packingReferenceValue}`;
@@ -785,25 +791,29 @@ function checkAndSendWebhook() {
         // Define la URL del webhook y los datos a enviar
         const webhookUrl = 'https://hooks.chime.aws/incomingwebhooks/2b9b375a-f8ad-4be4-85f2-1118ea084263?token=UHk0WFJDYUV8MXxNSk1fNDZ2azVSUTlreUhQV1RDZ3kwVmJHbm9rZTdNazVWNzdFc2x5Sk5n';
         const data = {
-            Content: `🔴{message}`
+            Content: `🔴${message}`
         };
 
         // Envía el mensaje mediante un webhook
         fetch(webhookUrl, {
             method: 'POST',
-          	mode: 'no-cors',
+            mode: 'no-cors',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
         })
-        .then(response => response.json())
-        .then(data => console.log('Success:', data))
+        .then(response => {
+            console.log('Success:', response);
+            // No se puede leer la respuesta en modo no-cors
+        })
         .catch((error) => console.error('Error:', error));
-    } else {
+    } else if (!hasSevenDigits) {
         console.log('El valor de taskForm:preprintCartonLabel no contiene exactamente 7 dígitos.');
     }
+    // Si hasSevenDigits es true pero el valor no ha cambiado, no se hace nada.
 }
 
 // Llama a la función cada 1000 milisegundos (1 segundo)
 setInterval(checkAndSendWebhook, 1000);
+
