@@ -638,7 +638,7 @@ eliminarElementos(elementosAEliminar);
 
 nIntervID = setInterval(updateIMG, 100);
 nIntervID = setInterval(updateUser, 10000);
-nIntervID = setInterval(NoUser, 500);
+nIntervID = setInterval(NoUser, 1000);
 nIntervID = setInterval(LoginMod, 100);
 nIntervID = setInterval(setupCustomUI,100);
 
