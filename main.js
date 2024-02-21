@@ -1,4 +1,4 @@
-// change 2.021
+// change 2.022
 
 // Función para obtener la fecha y la hora actual
 // Función para mostrar la fecha y la hora actual
@@ -557,31 +557,45 @@ if (document.getElementById("taskForm:packingReference").value != 0){
 }
 }
 	
+async function fetchDateTimeFromInternet() {
+    try {
+        const response = await fetch('http://worldtimeapi.org/api/ip');
+        const data = await response.json();
+        const serverDateTime = new Date(data.datetime);
+        const date = serverDateTime.getFullYear() + '-' + String(serverDateTime.getMonth() + 1).padStart(2, '0') + '-' + String(serverDateTime.getDate()).padStart(2, '0');
+        const time = String(serverDateTime.getHours()).padStart(2, '0') + ":" + String(serverDateTime.getMinutes()).padStart(2, '0') + ":" + String(serverDateTime.getSeconds()).padStart(2, '0');
+        return date + ' ' + time;
+    } catch (error) {
+        console.error('Error al obtener la hora del servidor:', error);
+        return null; // O maneja este caso según sea necesario
+    }
+}
 
 var sent = false; // Variable para controlar si la información ya se ha enviado
 
-function NoUser() {
+async function NoUser() {
     if (window.location.href.includes("https://wms-premium-apps-01")) {
         var inputField = document.getElementById("taskForm:packingReference");
-        
+
         if (inputField.value.trim() !== "") {
             // Si el campo no está vacío, establecer sent en false para permitir futuros envíos
             sent = false;
             return; // Salir de la función si el campo no está vacío
         }
-        
+
         if (!sent) { // Si el campo está vacío y la información aún no se ha enviado
-            // Envío de información
             console.log("Enviando información...");
+
+            var dateTime = await fetchDateTimeFromInternet(); // Obtener la fecha y hora de internet
+            if (!dateTime) {
+                console.error("No se pudo obtener la fecha y hora de internet.");
+                return; // Salir si no se pudo obtener la fecha y hora
+            }
 
             var workstation = document.getElementById("frm_topbar:workstationId").value;
             var sitename = workstation.slice(-2);
-            var today = new Date();
-            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            var dateTime = date+' '+time;
             var script = "https://script.google.com/macros/s/AKfycbwBqTjD2V0HeicFWPiWrYhxF1-R_oMFw-o4Vooy2Fw1F9EFZBsgZxm-lm_Aze1t6BkF/exec";
-            var params = script + "?workstation=" + sitename + "&dateTime=" + dateTime;
+            var params = `${script}?workstation=${sitename}&dateTime=${encodeURIComponent(dateTime)}`;
 
             fetch(params, { mode: 'no-cors' })
                 .then(function() {
