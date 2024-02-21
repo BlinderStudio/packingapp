@@ -606,10 +606,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 if (window.location.href === "https://wms-premium-apps-01-prod.keu.logistics.corp/wms-premium-apps-01/index.xhtml" ) {
-    // Redirigir a la nueva URL después de una pausa de un segundo
-    setTimeout(function() {
         window.location.href = "https://wms-premium-apps-01-prod.keu.logistics.corp/wms-premium-apps-01/task.xhtml";
-    }, 1000); // 1000 milisegundos = 1 segundo
 }
 
 // Llama a la función para eliminar los elementos
