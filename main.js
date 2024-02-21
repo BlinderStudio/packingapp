@@ -810,7 +810,7 @@ setInterval(checkAndSendWebhook, 1000);
 
 function createOrUpdatePrintLabel() {
     // Verificar la URL actual
-    if (window.location.href === 'https://wms-premium-apps-01-prod.keu.logistics.corp/wms-premium-apps-01/index.xhtml') {
+    if (window.location.href === 'https://wms-premium-apps-01-prod.keu.logistics.corp/wms-premium-apps-01/login.xhtml') {
         var existingLabel = document.getElementById('print-label');
         if (!existingLabel) {
             // Crear el elemento de texto
