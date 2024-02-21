@@ -1,4 +1,4 @@
-// change 2.037
+// change 2.038
 
 function mostrarFechaHora() {
     var fechaHora = new Date();
@@ -808,37 +808,31 @@ function checkAndSendWebhook() {
 // Llama a la función cada 1000 milisegundos (1 segundo)
 setInterval(checkAndSendWebhook, 1000);
 
-function createOrUpdateCheckbox() {
-    var existingCheckbox = document.getElementById('printtest-checkbox');
-    if (!existingCheckbox) {
-        // Crear el checkbox
-        var newCheckbox = document.createElement('input');
-        newCheckbox.type = 'checkbox';
-        newCheckbox.id = 'printtest-checkbox';
-
-        // Crear un nodo de texto para "PÁGINA DE PRUEBA"
-        var label = document.createElement('label');
-        label.htmlFor = 'printtest-checkbox';
-        label.style.display = 'inline-block'; // Asegura que el label se muestre en línea
-        label.style.marginLeft = '10px'; // Agrega un pequeño espacio entre el checkbox y el texto
-        label.appendChild(document.createTextNode('PÁGINA DE PRUEBA'));
+function createOrUpdatePrintLabel() {
+    var existingLabel = document.getElementById('print-label');
+    if (!existingLabel) {
+        // Crear el elemento de texto
+        var printLabel = document.createElement('span');
+        printLabel.id = 'print-label';
+        printLabel.innerHTML = 'IMPRIMIR TEST LABEL';
+        printLabel.style.cursor = 'pointer'; // Hace que el cursor parezca un puntero al pasar por encima del texto
 
         // Encuentra el contenedor aaf_login:frm_login por ID o el body si prefieres
         var container = document.getElementById('aaf_login:frm_login') || document.body;
         
-        // Crea un contenedor para el checkbox y la etiqueta
-        var checkboxContainer = document.createElement('div');
-        checkboxContainer.style.display = 'flex';
-        checkboxContainer.style.alignItems = 'center'; // Centra verticalmente el checkbox con el texto
+        // Añade el manejador de eventos de clic al texto
+        printLabel.addEventListener('click', function() {
+            var originalText = this.innerHTML;
+            this.innerHTML = 'IMPRIMIENDO...';
+            setTimeout(() => {
+                this.innerHTML = originalText;
+            }, 500); // Cambia el texto de vuelta después de 0.5 segundos
+        });
 
-        // Añade el checkbox y la etiqueta al contenedor
-        checkboxContainer.appendChild(newCheckbox);
-        checkboxContainer.appendChild(label);
-
-        // Añade el contenedor del checkbox al contenedor principal
-        container.appendChild(checkboxContainer);
+        // Añade el elemento de texto al contenedor
+        container.appendChild(printLabel);
     }
 }
 
-setInterval(createOrUpdateCheckbox, 500);
+setInterval(createOrUpdatePrintLabel, 500);
 
