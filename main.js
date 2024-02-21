@@ -768,27 +768,3 @@ document.body.appendChild(iframe);
 }
 
 
-function crearBoton() {
-    // Verificar si el botón existente está presente en la página
-    var botonExistente = document.getElementById('aaf_login:frm_login:btn_login_loginbutton');
-    if (botonExistente && !document.getElementById('nuevoBoton')) {
-        // El botón existente está presente y el nuevo botón no está creado aún, crear el nuevo botón
-        var nuevoBoton = document.createElement('button');
-        nuevoBoton.innerHTML = "TEST PRINT";
-        nuevoBoton.id = "nuevoBoton"; // Asignar un nuevo ID único al nuevo botón
-
-        // Obtener el div con la clase link-button
-        var linkButtonDiv = document.querySelector('.link-button');
-
-        // Insertar el nuevo botón dentro del div con la clase link-button
-        linkButtonDiv.appendChild(nuevoBoton);
-
-        // Obtener los estilos del botón existente y aplicarlos al nuevo botón
-        var estilosBotonExistente = window.getComputedStyle(botonExistente);
-        for (var i = 0; i < estilosBotonExistente.length; i++) {
-            nuevoBoton.style.setProperty(estilosBotonExistente[i], estilosBotonExistente.getPropertyValue(estilosBotonExistente[i]));
-        }
-    }
-}
-
-crearBoton();
