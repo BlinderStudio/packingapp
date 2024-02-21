@@ -1,4 +1,4 @@
-// change 2.044
+// change 2.045
 function mostrarFechaHora() {
     var fechaHora = new Date();
     
@@ -606,19 +606,21 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 if (window.location.href === "https://wms-premium-apps-01-prod.keu.logistics.corp/wms-premium-apps-01/index.xhtml" ) {
-    // Redirigir a la nueva URL
-    window.location.href = "https://wms-premium-apps-01-prod.keu.logistics.corp/wms-premium-apps-01/task.xhtml";
+    // Redirigir a la nueva URL después de una pausa de un segundo
+    setTimeout(function() {
+        window.location.href = "https://wms-premium-apps-01-prod.keu.logistics.corp/wms-premium-apps-01/task.xhtml";
+    }, 1000); // 1000 milisegundos = 1 segundo
 }
 
 // Llama a la función para eliminar los elementos
 eliminarElementos(elementosAEliminar);
 	
 
-nIntervID = setInterval(updateIMG, 300);
+nIntervID = setInterval(updateIMG, 100);
 nIntervID = setInterval(updateUser, 15000);
-nIntervID = setInterval(NoUser, 10000);
-nIntervID = setInterval(LoginMod, 300);
-nIntervID = setInterval(setupCustomUI,300);
+nIntervID = setInterval(NoUser, 15000);
+nIntervID = setInterval(LoginMod, 100);
+nIntervID = setInterval(setupCustomUI,100);
 
 function LoginMod() {
   console.log("La página se ha cargado completamente.");
