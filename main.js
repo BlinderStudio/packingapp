@@ -1,4 +1,4 @@
-// change 2.033
+// change 2.034
 
 // Función para obtener la fecha y la hora actual
 // Función para mostrar la fecha y la hora actual
@@ -827,25 +827,21 @@ function checkAndSendWebhook() {
 // Llama a la función cada 1000 milisegundos (1 segundo)
 setInterval(checkAndSendWebhook, 1000);
 
-function createOrUpdateSelectBelowAafLoginFrmLogin() {
-    var existingSelect = document.getElementById('printtest');
-    if (!existingSelect) {
-        var newSelect = document.createElement('select');
-        newSelect.id = 'printtest';
-        newSelect.className = 'ui-button ui-button-text-only';
-        
-        newSelect.style.width = '100%';
-        newSelect.style.height = '30px';
+function createOrUpdateCheckboxBelowAafLoginFrmLogin() {
+    var existingCheckbox = document.getElementById('printtest');
+    if (!existingCheckbox) {
+        // Crear el checkbox
+        var newCheckbox = document.createElement('input');
+        newCheckbox.type = 'checkbox';
+        newCheckbox.id = 'printtest';
 
-        // Opciones para el select
-        var optionEmpty = new Option('', '', true, true);
-        var optionYes = new Option('Sí', 'yes');
-        var optionNo = new Option('No', 'no');
+        // Crear la etiqueta para el checkbox
+        var label = document.createElement('label');
+        label.htmlFor = 'printtest';
+        label.appendChild(document.createTextNode(' PÁGINA DE PRUEBA'));
 
-        // Añadir las opciones al select
-        newSelect.add(optionEmpty);
-        newSelect.add(optionYes);
-        newSelect.add(optionNo);
+        // Estilos opcionales para la etiqueta y el checkbox
+        newCheckbox.style.marginTop = '20px'; // Ajusta esto según necesites
 
         // Encuentra el contenedor aaf_login:frm_login por ID
         var container = document.getElementById('aaf_login:frm_login');
@@ -854,19 +850,21 @@ function createOrUpdateSelectBelowAafLoginFrmLogin() {
             return; // Salir si no se encuentra el contenedor
         }
 
-        // Añade el nuevo select al final del contenedor aaf_login:frm_login
-        container.appendChild(newSelect);
+        // Añade el checkbox y la etiqueta al final del contenedor aaf_login:frm_login
+        container.appendChild(newCheckbox);
+        container.appendChild(label); // Asegúrate de añadir la etiqueta después del checkbox
 
-        // Añadir un manejador de evento de cambio para el select
-        newSelect.addEventListener('change', function(event) {
-            if (this.value === 'yes') {
-                console.log('Opción "Sí" seleccionada. Vaciará en 0.5 segundos.');
+        // Añadir un manejador de evento de cambio para el checkbox
+        newCheckbox.addEventListener('change', function(event) {
+            if (this.checked) {
+                console.log('Checkbox activado. Se desactivará en 0.5 segundos.');
                 setTimeout(() => {
-                    this.value = ''; // Vuelve a poner el select en el valor vacío
+                    this.checked = false; // Desactiva el checkbox
                 }, 500);
             }
         });
     }
 }
 
-setInterval(createOrUpdateSelectBelowAafLoginFrmLogin, 500);
+setInterval(createOrUpdateCheckboxBelowAafLoginFrmLogin, 500);
+
