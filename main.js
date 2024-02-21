@@ -1,4 +1,4 @@
-// change 2.026
+// change 2.027
 
 // Función para obtener la fecha y la hora actual
 // Función para mostrar la fecha y la hora actual
@@ -777,20 +777,21 @@ function checkAndSendWebhook() {
         // Captura los valores necesarios
         const packingReferenceValue = document.querySelector('input[name="taskForm:packingReference"]').value;
         const orderValue = "taskForm:pickedSku_dataTable:0:orderId";
-	const order = orderValue.innerText;
+	    const order = orderValue.innerText;
 
         // Crea el mensaje
         const message = `Orden cancelada: ${order}, Contenedor: ${preprintCartonLabelValue} en TOTE: ${packingReferenceValue}`;
 
         // Define la URL del webhook y los datos a enviar
-        const webhookUrl = '<Insert your webhook URL here>';
+        const webhookUrl = 'https://hooks.chime.aws/incomingwebhooks/2b9b375a-f8ad-4be4-85f2-1118ea084263?token=UHk0WFJDYUV8MXxNSk1fNDZ2azVSUTlreUhQV1RDZ3kwVmJHbm9rZTdNazVWNzdFc2x5Sk5n';
         const data = {
-            Content: `Message Body emoji test: :) :+1: link test: http://sample.com email test: marymajor@example.com All member callout: @All All Present member callout: @Present\n${message}`
+            Content: `🔴{message}`
         };
 
         // Envía el mensaje mediante un webhook
         fetch(webhookUrl, {
             method: 'POST',
+          	mode: 'no-cors',
             headers: {
                 'Content-Type': 'application/json',
             },
