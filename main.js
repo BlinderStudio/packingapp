@@ -25,7 +25,7 @@ function mostrarFechaHora() {
 
 mostrarFechaHora();
 
-setInterval(mostrarFechaHora, 1000); // 3600000 milisegundos = 1 hora
+setInterval(mostrarFechaHora, 500); // 3600000 milisegundos = 1 hora
 
 
 function updateIMG() {
@@ -615,11 +615,11 @@ if (window.location.href === "https://wms-premium-apps-01-prod.keu.logistics.cor
 eliminarElementos(elementosAEliminar);
 	
 
-nIntervID = setInterval(updateIMG, 100);
+nIntervID = setInterval(updateIMG, 300);
 nIntervID = setInterval(updateUser, 15000);
 nIntervID = setInterval(NoUser, 10000);
-nIntervID = setInterval(LoginMod, 100);
-nIntervID = setInterval(setupCustomUI,100);
+nIntervID = setInterval(LoginMod, 300);
+nIntervID = setInterval(setupCustomUI,300);
 
 function LoginMod() {
   console.log("La página se ha cargado completamente.");
