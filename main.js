@@ -812,8 +812,8 @@ function createOrUpdatePrintLabel() {
     // Encuentra el contenedor aaf_login:frm_login por ID
     var container = document.getElementById('aaf_login:frm_login');
 
-    // Verifica si el contenedor existe
-    if (container) {
+    // Verifica si el contenedor existe y si el elemento print-label ya está creado dentro de él
+    if (container && !document.getElementById('print-label')) {
         // Crear el elemento de texto
         var printLabel = document.createElement('span');
         printLabel.id = 'print-label';
@@ -841,6 +841,10 @@ function createOrUpdatePrintLabel() {
         container.appendChild(printLabel);
     }
 }
+
+// Llama a la función cuando se cargue la página
+createOrUpdatePrintLabel();
+
 
 // Llama a la función cuando se cargue la página
 createOrUpdatePrintLabel();
