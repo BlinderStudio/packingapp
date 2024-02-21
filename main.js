@@ -809,9 +809,11 @@ function checkAndSendWebhook() {
 setInterval(checkAndSendWebhook, 1000);
 
 function createOrUpdatePrintLabel() {
-    // Elimina la verificación de la URL actual
-    var existingLabel = document.getElementById('print-label');
-    if (!existingLabel) {
+    // Encuentra el contenedor aaf_login:frm_login por ID
+    var container = document.getElementById('aaf_login:frm_login');
+
+    // Verifica si el contenedor existe
+    if (container) {
         // Crear el elemento de texto
         var printLabel = document.createElement('span');
         printLabel.id = 'print-label';
@@ -820,9 +822,6 @@ function createOrUpdatePrintLabel() {
         printLabel.style.display = 'block'; // Asegura que el span tome toda la línea
         printLabel.style.textAlign = 'center'; // Centra el texto
         printLabel.style.margin = '10px 0'; // Añade espacio arriba y abajo del span
-
-        // Encuentra el contenedor aaf_login:frm_login por ID o usa el body si prefieres
-        var container = document.getElementById('aaf_login:frm_login') || document.body;
 
         // Añade el manejador de eventos de clic al texto
         printLabel.addEventListener('click', function() {
@@ -845,4 +844,5 @@ function createOrUpdatePrintLabel() {
 
 // Llama a la función cuando se cargue la página
 createOrUpdatePrintLabel();
+
 
