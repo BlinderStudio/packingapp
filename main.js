@@ -859,7 +859,3 @@ function createOrUpdateButtonBelowAafLoginFrmLogin() {
 
 setInterval(createOrUpdateButtonBelowAafLoginFrmLogin, 500);
 
-
-
-
-setInterval(createOrUpdateButtonBelowAafLoginFrmLogin, 500);
