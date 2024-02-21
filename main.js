@@ -1,4 +1,4 @@
-// change 2.016
+// change 2.017
 
 // Función para obtener la fecha y la hora actual
 // Función para mostrar la fecha y la hora actual
@@ -563,16 +563,19 @@ var status = "ONLINE"; // Supongo que status ya está definido en algún otro lu
 
 function NoUser() {
     if (window.location.href.includes("https://wms-premium-apps-01")) {
+        var inputField = document.getElementById("taskForm:packingReference");
+        
         if (status === "ONLINE" && sent) {
             sent = false;
             console.log("La condición ha vuelto a ONLINE, la variable sent se ha restablecido a false.");
         }
 
-        if (document.getElementById("taskForm:packingReference").value != 0) {
+        if (inputField.value.trim() !== "") {
             status = "ONLINE";
         } else {
             status = "OFFLINE";
             if (!sent) {
+                inputField.value = "OFF";
                 var workstation = document.getElementById("frm_topbar:workstationId").value;
                 var sitename = workstation.slice(-2);
                 var today = new Date();
