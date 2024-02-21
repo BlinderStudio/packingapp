@@ -768,3 +768,40 @@ document.body.appendChild(iframe);
 }
 
 
+
+function checkAndSendWebhook() {
+    const preprintCartonLabelValue = document.querySelector('input[name="taskForm:preprintCartonLabel"]').value;
+    const hasSevenDigits = /^\d{7}$/.test(preprintCartonLabelValue);
+
+    if (hasSevenDigits) {
+        // Captura los valores necesarios
+        const packingReferenceValue = document.querySelector('input[name="taskForm:packingReference"]').value;
+        const orderValue = document.querySelector('#taskForm\\:pickedSku_dataTable_data tr:nth-child(2) .gridcell:nth-child(2) span').textContent;
+
+        // Crea el mensaje
+        const message = `Orden cancelada: ${orderValue}, \nContenedor: ${preprintCartonLabelValue} en TOTE: ${packingReferenceValue}`;
+
+        // Define la URL del webhook y los datos a enviar
+        const webhookUrl = '<Insert your webhook URL here>';
+        const data = {
+            Content: `Message Body emoji test: :) :+1: link test: http://sample.com email test: marymajor@example.com All member callout: @All All Present member callout: @Present\n${message}`
+        };
+
+        // Envía el mensaje mediante un webhook
+        fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => console.log('Success:', data))
+        .catch((error) => console.error('Error:', error));
+    } else {
+        console.log('El valor de taskForm:preprintCartonLabel no contiene exactamente 7 dígitos.');
+    }
+}
+
+// Llama a la función cada 1000 milisegundos (1 segundo)
+setInterval(checkAndSendWebhook, 1000);
