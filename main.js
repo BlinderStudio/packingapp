@@ -605,10 +605,6 @@ document.addEventListener("DOMContentLoaded", function() {
     document.body.style.backgroundColor = "white";
 });
 
-if (window.location.href === "https://wms-premium-apps-01-prod.keu.logistics.corp/wms-premium-apps-01/index.xhtml" ) {
-        window.location.href = "https://wms-premium-apps-01-prod.keu.logistics.corp/wms-premium-apps-01/task.xhtml";
-}
-
 // Llama a la función para eliminar los elementos
 eliminarElementos(elementosAEliminar);
 	
