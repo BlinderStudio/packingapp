@@ -1,4 +1,4 @@
-// change 2.043
+// change 2.044
 function mostrarFechaHora() {
     var fechaHora = new Date();
     
