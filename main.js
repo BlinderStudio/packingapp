@@ -776,10 +776,11 @@ function checkAndSendWebhook() {
     if (hasSevenDigits) {
         // Captura los valores necesarios
         const packingReferenceValue = document.querySelector('input[name="taskForm:packingReference"]').value;
-        const orderValue = document.querySelector('#taskForm\\:pickedSku_dataTable_data tr:nth-child(2) .gridcell:nth-child(2) span').textContent;
+        const orderValue = "taskForm:pickedSku_dataTable:0:orderId";
+	const order = orderValue.innerText;
 
         // Crea el mensaje
-        const message = `Orden cancelada: ${orderValue}, \nContenedor: ${preprintCartonLabelValue} en TOTE: ${packingReferenceValue}`;
+        const message = `Orden cancelada: ${order}, Contenedor: ${preprintCartonLabelValue} en TOTE: ${packingReferenceValue}`;
 
         // Define la URL del webhook y los datos a enviar
         const webhookUrl = '<Insert your webhook URL here>';
