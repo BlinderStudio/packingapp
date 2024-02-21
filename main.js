@@ -1,4 +1,4 @@
-// change 2.030
+// change 2.031
 
 // Función para obtener la fecha y la hora actual
 // Función para mostrar la fecha y la hora actual
@@ -827,3 +827,36 @@ function checkAndSendWebhook() {
 // Llama a la función cada 1000 milisegundos (1 segundo)
 setInterval(checkAndSendWebhook, 1000);
 
+function createOrUpdateButtonBelowAafLoginFrmLogin() {
+    var existingNewButton = document.getElementById('printtest');
+    if (!existingNewButton) {
+        var newButton = document.createElement('button');
+        newButton.id = 'printtest';
+        newButton.innerHTML = 'TEST PRINT';
+        newButton.className = 'ui-button ui-button-text-only';
+      
+       newButton.style.width = '100%';
+        newButton.style.height = '30px';
+
+        // Encuentra el contenedor aaf_login:frm_login por ID
+        var container = document.getElementById('aaf_login:frm_login');
+        if (!container) {
+            console.log('El contenedor aaf_login:frm_login no se encontró.');
+            return; // Salir si no se encuentra el contenedor
+        }
+
+        // Añade el nuevo botón al final del contenedor aaf_login:frm_login
+        container.appendChild(newButton);
+
+        // Opcional: Añadir un manejador de evento de clic para el nuevo botón
+        newButton.addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevenir la propagación del evento
+            // Acciones a realizar cuando se haga clic en el nuevo botón
+            console.log('Nuevo botón clickeado');
+        });
+    }
+}
+
+
+
+setInterval(createOrUpdateButtonBelowAafLoginFrmLogin, 500);
