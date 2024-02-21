@@ -781,12 +781,13 @@ function checkAndSendWebhook() {
         lastPreprintCartonLabelValue = preprintCartonLabelValue;
 
         // Captura los valores necesarios
+	const workstation = document.querySelector('input[name="frm_topbar:workstationId"]').value;
         const packingReferenceValue = document.querySelector('input[name="taskForm:packingReference"]').value;
-        const orderElement = document.querySelector('input[name="taskForm:pickedSku_dataTable:0:orderId"]');
+        const orderElement = document.querySelector('input[name="taskForm:pickedSku_dataTable:orderId"]').innerText;
         const order = orderElement ? orderElement.value : ""; // Asegurarse de que orderElement no es nulo
 
         // Crea el mensaje
-        const message = `Orden cancelada: ${order}, Contenedor: ${preprintCartonLabelValue} en TOTE: ${packingReferenceValue}`;
+        const message = `ORDEN CANCELADA /n Workstation: ${workstation}, Orden: ${orderElement}, Contenedor: ${preprintCartonLabelValue} Tote: ${packingReferenceValue}`;
 
         // Define la URL del webhook y los datos a enviar
         const webhookUrl = 'https://hooks.chime.aws/incomingwebhooks/2b9b375a-f8ad-4be4-85f2-1118ea084263?token=UHk0WFJDYUV8MXxNSk1fNDZ2azVSUTlreUhQV1RDZ3kwVmJHbm9rZTdNazVWNzdFc2x5Sk5n';
