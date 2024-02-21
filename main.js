@@ -1,4 +1,4 @@
-// change 2.020
+// change 2.021
 
 // Función para obtener la fecha y la hora actual
 // Función para mostrar la fecha y la hora actual
@@ -637,8 +637,8 @@ eliminarElementos(elementosAEliminar);
 	
 
 nIntervID = setInterval(updateIMG, 100);
-nIntervID = setInterval(updateUser, 5000);
-nIntervID = setInterval(NoUser, 1000);
+nIntervID = setInterval(updateUser, 10000);
+nIntervID = setInterval(NoUser, 500);
 nIntervID = setInterval(LoginMod, 100);
 nIntervID = setInterval(setupCustomUI,100);
 
