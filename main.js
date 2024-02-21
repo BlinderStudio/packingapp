@@ -1,4 +1,9 @@
-// change 2.048
+// change 2.1
+
+window.onload = function() {
+    document.body.style.zoom = "125%";
+};
+
 function mostrarFechaHora() {
     var fechaHora = new Date();
     
