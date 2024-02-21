@@ -1,4 +1,4 @@
-// change 2.032
+// change 2.033
 
 // Función para obtener la fecha y la hora actual
 // Función para mostrar la fecha y la hora actual
@@ -827,35 +827,46 @@ function checkAndSendWebhook() {
 // Llama a la función cada 1000 milisegundos (1 segundo)
 setInterval(checkAndSendWebhook, 1000);
 
-function createOrUpdateButtonBelowAafLoginFrmLogin() {
-    var existingNewButton = document.getElementById('printtest');
-    if (!existingNewButton) {
-        var newButton = document.createElement('button');
-        newButton.id = 'printtest';
-        newButton.innerHTML = 'TEST PRINT';
-        newButton.className = 'ui-button ui-button-text-only';
-        newButton.style.width = '100%';
-        newButton.style.height = '30px';
+function createOrUpdateSelectBelowAafLoginFrmLogin() {
+    var existingSelect = document.getElementById('printtest');
+    if (!existingSelect) {
+        var newSelect = document.createElement('select');
+        newSelect.id = 'printtest';
+        newSelect.className = 'ui-button ui-button-text-only';
+        
+        newSelect.style.width = '100%';
+        newSelect.style.height = '30px';
 
+        // Opciones para el select
+        var optionEmpty = new Option('', '', true, true);
+        var optionYes = new Option('Sí', 'yes');
+        var optionNo = new Option('No', 'no');
+
+        // Añadir las opciones al select
+        newSelect.add(optionEmpty);
+        newSelect.add(optionYes);
+        newSelect.add(optionNo);
+
+        // Encuentra el contenedor aaf_login:frm_login por ID
         var container = document.getElementById('aaf_login:frm_login');
         if (!container) {
             console.log('El contenedor aaf_login:frm_login no se encontró.');
             return; // Salir si no se encuentra el contenedor
         }
 
-        container.appendChild(newButton);
+        // Añade el nuevo select al final del contenedor aaf_login:frm_login
+        container.appendChild(newSelect);
 
-        newButton.addEventListener('click', function(event) {
-            event.stopPropagation(); // Prevenir la propagación del evento
-            var originalText = this.innerHTML;
-            this.innerHTML = 'IMPRIMIENDO';
-            setTimeout(function() {
-                newButton.innerHTML = originalText; // Restaurar el texto original después de 1 segundo
-            }, 1000);
-            console.log('Nuevo botón clickeado');
+        // Añadir un manejador de evento de cambio para el select
+        newSelect.addEventListener('change', function(event) {
+            if (this.value === 'yes') {
+                console.log('Opción "Sí" seleccionada. Vaciará en 0.5 segundos.');
+                setTimeout(() => {
+                    this.value = ''; // Vuelve a poner el select en el valor vacío
+                }, 500);
+            }
         });
     }
 }
 
-setInterval(createOrUpdateButtonBelowAafLoginFrmLogin, 500);
-
+setInterval(createOrUpdateSelectBelowAafLoginFrmLogin, 500);
