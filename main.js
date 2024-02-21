@@ -815,18 +815,26 @@ function createOrUpdatePrintLabel() {
         var printLabel = document.createElement('span');
         printLabel.id = 'print-label';
         printLabel.innerHTML = 'IMPRIMIR TEST LABEL';
-        printLabel.style.cursor = 'pointer'; // Hace que el cursor parezca un puntero al pasar por encima del texto
+        printLabel.style.cursor = 'pointer'; // Cambia el cursor a un puntero cuando pasa sobre el texto
+        printLabel.style.display = 'block'; // Asegura que el span tome toda la línea
+        printLabel.style.textAlign = 'center'; // Centra el texto
+        printLabel.style.margin = '10px 0'; // Añade espacio arriba y abajo del span
 
-        // Encuentra el contenedor aaf_login:frm_login por ID o el body si prefieres
+        // Encuentra el contenedor aaf_login:frm_login por ID o usa el body si prefieres
         var container = document.getElementById('aaf_login:frm_login') || document.body;
-        
+
         // Añade el manejador de eventos de clic al texto
         printLabel.addEventListener('click', function() {
+            var workstationInput = document.getElementById('aaf_login:frm_login:txt_login_workstationid');
             var originalText = this.innerHTML;
-            this.innerHTML = 'IMPRIMIENDO...';
+            if (workstationInput && workstationInput.value === '') {
+                this.innerHTML = 'WORKSTATION NO VÁLIDA';
+            } else {
+                this.innerHTML = 'IMPRIMIENDO...';
+            }
             setTimeout(() => {
-                this.innerHTML = originalText;
-            }, 500); // Cambia el texto de vuelta después de 0.5 segundos
+                this.innerHTML = originalText; // Cambia el texto de vuelta después de 0.5 segundos
+            }, 500);
         });
 
         // Añade el elemento de texto al contenedor
