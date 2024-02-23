@@ -1,8 +1,52 @@
-// change 2.1
+// change 2.2
+
+if (window.location.href === "https://wms-premium-apps-01-prod.keu.logistics.corp/wms-premium-apps-01/index.xhtml") {
+    // Redirigir a la URL de destino
+    window.location.href = "https://wms-premium-apps-01-prod.keu.logistics.corp/wms-premium-apps-01/task.xhtml";
+}
 
 window.onload = function() {
     document.body.style.zoom = "125%";
 };
+
+function enviarArchivoFTP(nombreArchivo) {
+    // URL del servidor intermediario que manejará la solicitud FTP
+    const urlServidorIntermediario = 'https://tu-servidor-intermediario.com/enviarArchivoFTP';
+
+    // Datos del archivo que se va a enviar
+    const datosArchivo = {
+        archivo: nombreArchivo
+    };
+
+    // Opciones para la solicitud Fetch
+    const opcionesFetch = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+            // Aquí puedes incluir otras cabeceras según sea necesario
+        },
+        body: JSON.stringify(datosArchivo)
+    };
+
+    // Realizar la solicitud Fetch al servidor intermediario
+    fetch(urlServidorIntermediario, opcionesFetch)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('La solicitud al servidor intermediario falló');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('El archivo se envió correctamente al servidor FTP:', data);
+            // Aquí puedes manejar la respuesta del servidor, si es necesario
+        })
+        .catch(error => {
+            console.error('Error al enviar el archivo al servidor FTP:', error);
+            // Aquí puedes manejar el error, por ejemplo, mostrando un mensaje al usuario
+        });
+}
+
+
 
 function mostrarFechaHora() {
     var fechaHora = new Date();
@@ -749,39 +793,38 @@ document.body.appendChild(iframe);
 
 
 
-// Variable para almacenar el último valor del contenedor enviado
-let lastPreprintCartonLabelValue = '';
-let lastOrderIDSent = ''; // Variable para almacenar el último Order ID enviado
+let errorMessageShown = false;
+
+const observer = new MutationObserver((mutationsList, observer) => {
+    for(const mutation of mutationsList) {
+        if (mutation.type === 'childList' && !document.querySelector('.ui-messages-error-detail')) {
+            errorMessageShown = false;
+            console.log('El mensaje de error ha desaparecido. La variable errorMessageShown se ha reiniciado.');
+        }
+    }
+});
+
+observer.observe(document.body, { childList: true, subtree: true });
 
 function checkAndSendWebhook() {
-    const preprintCartonLabelValue = document.querySelector('input[name="taskForm:preprintCartonLabel"]').value;
-    const hasSevenDigits = /^\d{7}$/.test(preprintCartonLabelValue);
+    if (!errorMessageShown) {
+        const errorMessage = document.querySelector('.ui-messages-error-detail');
+        if (errorMessage && errorMessage.textContent.includes('FAILED-No Task Found')) {
+            errorMessageShown = true;
 
-    if (hasSevenDigits && preprintCartonLabelValue !== lastPreprintCartonLabelValue) {
-        const workstation = document.querySelector('input[name="frm_topbar:workstationId"]').value;
-        const packingReferenceValue = document.querySelector('input[name="taskForm:packingReference"]').value;
-        var orderIDElement = document.querySelector('#taskForm\\:pickedSku_dataTable_data > tr > td:nth-child(2)');
-        var orderID = orderIDElement ? orderIDElement.textContent : null;
-        var parts = orderID.split(' '); // Esto divide el texto en un array por cada espacio
-        var orderIDsplit = parts[parts.length - 1];
-        var finalOrderID = orderIDsplit.substring(2);
+            const workstation = document.querySelector('input[name="frm_topbar:workstationId"]').value;
+            const packingReferenceValue = document.querySelector('input[name="taskForm:packingReference"]').value;
+            var orderIDElement = document.querySelector('#taskForm\\:pickedSku_dataTable_data > tr > td:nth-child(2)');
+            var orderID = orderIDElement ? orderIDElement.textContent : null;
+            var parts = orderID.split(' ');
+            var orderIDsplit = parts[parts.length - 1];
+            var finalOrderID = orderIDsplit.substring(2);
 
-        // Comprobar si el finalOrderID actual es diferente al último enviado
-        if (finalOrderID !== lastOrderIDSent) {
-            // Actualiza los últimos valores enviados
-            lastPreprintCartonLabelValue = preprintCartonLabelValue;
-            lastOrderIDSent = finalOrderID; // Actualiza el último Order ID enviado
-
-            // Crea el mensaje
-            const message = `** Workstation: ** ${workstation}\n ** Orden: ** ${finalOrderID}\n ** Tote: ** ${packingReferenceValue}`;
-
-            // Define la URL del webhook y los datos a enviar
             const webhookUrl = 'https://hooks.chime.aws/incomingwebhooks/2b9b375a-f8ad-4be4-85f2-1118ea084263?token=UHk0WFJDYUV8MXxNSk1fNDZ2azVSUTlreUhQV1RDZ3kwVmJHbm9rZTdNazVWNzdFc2x5Sk5n';
             const data = {
-                Content: `/md 🔴 ** ORDER CANCELADA ** 🔴 \n ${message}`
+                Content: `/md 🔴 ** ORDER CANCELADA ** 🔴 \n**Workstation: ** ${workstation}\n**Orden:** ${finalOrderID}\n**Tote:** ${packingReferenceValue}`
             };
 
-            // Envía el mensaje mediante un webhook
             fetch(webhookUrl, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -792,17 +835,16 @@ function checkAndSendWebhook() {
             })
             .then(response => {
                 console.log('Success:', response);
-                // No se puede leer la respuesta en modo no-cors
             })
             .catch((error) => console.error('Error:', error));
         } else {
-            console.log('Mensaje para el Order ID ya fue enviado.');
+            console.log('No se encontró ningún error o el error no coincide con el mensaje esperado.');
         }
-    } else if (!hasSevenDigits) {
-        console.log('El valor de taskForm:preprintCartonLabel no contiene exactamente 7 dígitos.');
+    } else {
+        console.log('El mensaje de error ya se mostró anteriormente.');
     }
-    // Si hasSevenDigits es true pero el valor de preprintCartonLabel no ha cambiado y el Order ID es el mismo, no se hace nada.
 }
+
 
 // Llama a la función cada 1000 milisegundos (1 segundo)
 setInterval(checkAndSendWebhook, 1000);
@@ -842,5 +884,4 @@ function createOrUpdatePrintLabel() {
 }
 // Llama a la función cuando se cargue la página
 createOrUpdatePrintLabel();
-
 
