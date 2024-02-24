@@ -12,40 +12,6 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-function enviarArchivoFTP(nombreArchivo) {
-    // URL del servidor intermediario que manejará la solicitud FTP
-    const urlServidorIntermediario = 'https://tu-servidor-intermediario.com/enviarArchivoFTP';
-
-    // Datos del archivo que se va a enviar
-    const datosArchivo = {
-        archivo: nombreArchivo
-    };
-
-    // Opciones para la solicitud Fetch
-    const opcionesFetch = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-            // Aquí puedes incluir otras cabeceras según sea necesario
-        },
-        body: JSON.stringify(datosArchivo)
-    };
-
-    // Realizar la solicitud Fetch al servidor intermediario
-    fetch(urlServidorIntermediario, opcionesFetch)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('La solicitud al servidor intermediario falló');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Aquí puedes manejar la respuesta del servidor, si es necesario
-        })
-        .catch(error => {
-            // Aquí puedes manejar el error, por ejemplo, mostrando un mensaje al usuario
-        });
-}
 
 
 function enterSKU() { 
@@ -714,11 +680,11 @@ document.addEventListener("DOMContentLoaded", function() {
 eliminarElementos(elementosAEliminar);
 	
 
-nIntervID = setInterval(updateIMG, 100);
+nIntervID = setInterval(updateIMG, 10);
 nIntervID = setInterval(updateUser, 15000);
 nIntervID = setInterval(NoUser, 15000);
-nIntervID = setInterval(LoginMod, 100);
-nIntervID = setInterval(setupCustomUI,100);
+nIntervID = setInterval(LoginMod, 10);
+nIntervID = setInterval(setupCustomUI, 10);
 
 function LoginMod() {
 
