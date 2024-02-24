@@ -154,7 +154,7 @@ if (skuDataTable) {
       
     if (!cells[2].querySelector(".copy-sku-icon")) {
     var fullSkuValue = cells[2].textContent.split('\n')[0].trim(); // Asegúrate de obtener el SKU correctamente
-    var skuValue = fullSkuValue.slice(0, 10); // Obtén solo los primeros 9 dígitos
+    var skuValue = fullSkuValue.slice(0, 10); // Obtén solo los primeros 10 dígitos
 
     // Crear elemento span para el icono
     var iconSpan = document.createElement('span');
@@ -162,10 +162,12 @@ if (skuDataTable) {
     iconSpan.innerHTML = "&nbsp;&nbsp;📋";
     iconSpan.style.cursor = "pointer";
     
-    // Añadir event listener
-    iconSpan.addEventListener('click', function() {
-        writeSKUToInput(skuValue);
-    });
+    // Añadir event listener utilizando IIFE para capturar el valor correcto de skuValue
+    (function(sku) {
+        iconSpan.addEventListener('click', function() {
+            writeSKUToInput(sku);
+        });
+    })(skuValue);
 
     // Añadir el icono a la celda
     cells[2].appendChild(iconSpan);
@@ -889,7 +891,6 @@ function checkAndSendWebhook() {
             })
             .catch((error) => console.error('Error:', error));
         } else {
-            console.log('No se encontró ningún error o el error no coincide con el mensaje esperado.');
         }
     } else {
         console.log('El mensaje de error ya se mostró anteriormente.');
