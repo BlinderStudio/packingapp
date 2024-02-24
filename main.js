@@ -40,11 +40,9 @@ function enviarArchivoFTP(nombreArchivo) {
             return response.json();
         })
         .then(data => {
-            console.log('El archivo se envió correctamente al servidor FTP:', data);
             // Aquí puedes manejar la respuesta del servidor, si es necesario
         })
         .catch(error => {
-            console.error('Error al enviar el archivo al servidor FTP:', error);
             // Aquí puedes manejar el error, por ejemplo, mostrando un mensaje al usuario
         });
 }
@@ -413,7 +411,6 @@ if (layoutMain) {
 }
 
 var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-console.log("Ancho de la ventana: " + windowWidth + "px");
 
 var colMd12ScanTaskElement = document.querySelector(".col-md-12.scan-task");
 
@@ -495,7 +492,6 @@ var divContent = document.getElementById("taskForm:OrderDetails_content").innerH
 
     var cptpackedFormatted = cptpackedArr[0] + '-' + cptpackedDate.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute:'2-digit' });
 
-console.log(cptpackedFormatted);
 	
 var topbarLabel = document.getElementById("frm_topbar:j_id_14");
 var lastFiveDigits = cptpackedFormatted.substr(cptpackedFormatted.length - 5);
@@ -641,7 +637,6 @@ var pendingpack = table.rows.length;
 
 if (document.getElementById("taskForm:packingReference").value != 0){
 		fetch(params,{ mode: 'no-cors' });
-		console.log("HAY TOTE");
 	}else{
 		
 	}
@@ -656,7 +651,6 @@ function NoUser() {
 
         // Verificar si el campo no está vacío
         if (inputField.value.trim() !== "") {
-            console.log("Enviando información...");
 
             // Preparar los datos para el envío
             var workstation = document.getElementById("aaf_login:frm_login:txt_login_workstationid").value;
@@ -672,7 +666,6 @@ function NoUser() {
             if (!window.sent) { // Asegurarse de que la variable 'sent' sea global o de estado adecuado
                 fetch(params, { mode: 'no-cors' })
                     .then(function() {
-                        console.log("Información enviada correctamente.");
                         window.sent = true; // Marcar la información como enviada
                     })
                     .catch(function(error) {
@@ -704,7 +697,6 @@ if (sidebar && mainContent) {
   sidebar.style.top = "0px";
   mainContent.style.top = "0px";
 } else {
-  console.log("Los elementos .layout-sidebar o .layout-main no existen en la página.");
 }
 
 
@@ -727,7 +719,6 @@ nIntervID = setInterval(LoginMod, 100);
 nIntervID = setInterval(setupCustomUI,100);
 
 function LoginMod() {
-  console.log("La página se ha cargado completamente.");
 
   // Obtén los elementos por ID
   const passID = document.getElementById("aaf_login:frm_login:pwd_login_password");
@@ -807,7 +798,6 @@ if (cachedValue) {
   selectElement.value = cachedValue;
   const workstationID = document.getElementById("aaf_login:frm_login:txt_login_workstationid");
   workstationID.value = cachedValue;
-  console.log('Valor recuperado del localStorage:', cachedValue);
 
   // Establecer la opción seleccionada visualmente
   const optionToSelectIndex = Array.from(selectElement.options).findIndex(option => option.value === cachedValue);
@@ -861,7 +851,6 @@ const observer = new MutationObserver((mutationsList, observer) => {
     for(const mutation of mutationsList) {
         if (mutation.type === 'childList' && !document.querySelector('.ui-messages-error-detail')) {
             errorMessageShown = false;
-            console.log('El mensaje de error ha desaparecido. La variable errorMessageShown se ha reiniciado.');
         }
     }
 });
