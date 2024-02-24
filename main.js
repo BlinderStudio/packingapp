@@ -1,13 +1,16 @@
-// change 2.2
+// change 2.3
 
 if (window.location.href === "https://wms-premium-apps-01-prod.keu.logistics.corp/wms-premium-apps-01/index.xhtml") {
     // Redirigir a la URL de destino
     window.location.href = "https://wms-premium-apps-01-prod.keu.logistics.corp/wms-premium-apps-01/task.xhtml";
 }
 
-window.onload = function() {
-    document.body.style.zoom = "125%";
-};
+document.addEventListener("DOMContentLoaded", function() {
+    var style = document.createElement('style');
+    style.innerHTML = 'body { zoom: 125%; }';
+    document.head.appendChild(style);
+});
+
 
 function enviarArchivoFTP(nombreArchivo) {
     // URL del servidor intermediario que manejará la solicitud FTP
@@ -47,6 +50,37 @@ function enviarArchivoFTP(nombreArchivo) {
 }
 
 
+function enterSKU() { 
+    var barcodeInput = document.getElementById("taskForm:barcode"); // Asegúrate de que este es el ID correcto
+    var ev = new KeyboardEvent('keydown', {
+        altKey: false,
+        bubbles: true,
+        cancelBubble: false, 
+        cancelable: true,
+        charCode: 0,
+        code: "Enter",
+        composed: true,
+        ctrlKey: false,
+        currentTarget: null,
+        defaultPrevented: true,
+        detail: 0,
+        eventPhase: 0,
+        isComposing: false,
+        isTrusted: true,
+        key: "Enter",
+        keyCode: 13,
+        location: 0,
+        metaKey: false,
+        repeat: false,
+        returnValue: false,
+        shiftKey: false,
+        type: "keydown",
+        which: 13
+    });
+    barcodeInput.dispatchEvent(ev);
+}
+
+
 
 function mostrarFechaHora() {
     var fechaHora = new Date();
@@ -75,6 +109,15 @@ mostrarFechaHora();
 
 setInterval(mostrarFechaHora, 500); // 3600000 milisegundos = 1 hora
 
+function writeSKUToInput(sku) {
+    var barcodeInput = document.getElementById("taskForm:barcode");
+    if (barcodeInput) {
+        barcodeInput.value = sku; // Establece el valor del SKU en el input
+        barcodeInput.focus(); // Pone el foco en el input
+
+         enterSKU();
+    }
+}
 
 function updateIMG() {
     var URLAmazon = "http://images.amazon.com/images/P/";
@@ -107,10 +150,29 @@ if (skuDataTable) {
 
       if (!cells[1].classList.contains("modified")) {
         cells[1].innerHTML += "<br>" + valorColumna4;
-
         cells[1].classList.add("modified");
+        
       }
+      
+    if (!cells[2].querySelector(".copy-sku-icon")) {
+    var fullSkuValue = cells[2].textContent.split('\n')[0].trim(); // Asegúrate de obtener el SKU correctamente
+    var skuValue = fullSkuValue.slice(0, 10); // Obtén solo los primeros 9 dígitos
 
+    // Crear elemento span para el icono
+    var iconSpan = document.createElement('span');
+    iconSpan.classList.add('copy-sku-icon');
+    iconSpan.innerHTML = "&nbsp;&nbsp;📋";
+    iconSpan.style.cursor = "pointer";
+    
+    // Añadir event listener
+    iconSpan.addEventListener('click', function() {
+        writeSKUToInput(skuValue);
+    });
+
+    // Añadir el icono a la celda
+    cells[2].appendChild(iconSpan);
+}
+       
       cells[5].style.display = "none"; // Sexta columna
       cells[7].style.display = "none"; // Octava columna
     }
@@ -811,7 +873,7 @@ function checkAndSendWebhook() {
         const errorMessage = document.querySelector('.ui-messages-error-detail');
         if (errorMessage && errorMessage.textContent.includes('FAILED-No Task Found')) {
             errorMessageShown = true;
-
+			errorMessage.textContent = 'ERROR: Orden cancelada, entregar a PROBLEM'
             const workstation = document.querySelector('input[name="frm_topbar:workstationId"]').value;
             const packingReferenceValue = document.querySelector('input[name="taskForm:packingReference"]').value;
             var orderIDElement = document.querySelector('#taskForm\\:pickedSku_dataTable_data > tr > td:nth-child(2)');
