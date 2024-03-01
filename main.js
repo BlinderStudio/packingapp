@@ -1,4 +1,4 @@
-// change 2.3
+// change 2.4
 
 if (window.location.href === "https://wms-premium-apps-01-prod.keu.logistics.corp/wms-premium-apps-01/index.xhtml") {
     // Redirigir a la URL de destino
@@ -16,6 +16,36 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function enterSKU() { 
     var barcodeInput = document.getElementById("taskForm:barcode"); // Asegúrate de que este es el ID correcto
+    var ev = new KeyboardEvent('keydown', {
+        altKey: false,
+        bubbles: true,
+        cancelBubble: false, 
+        cancelable: true,
+        charCode: 0,
+        code: "Enter",
+        composed: true,
+        ctrlKey: false,
+        currentTarget: null,
+        defaultPrevented: true,
+        detail: 0,
+        eventPhase: 0,
+        isComposing: false,
+        isTrusted: true,
+        key: "Enter",
+        keyCode: 13,
+        location: 0,
+        metaKey: false,
+        repeat: false,
+        returnValue: false,
+        shiftKey: false,
+        type: "keydown",
+        which: 13
+    });
+    barcodeInput.dispatchEvent(ev);
+}
+
+function enterPRINT() { 
+    var barcodeInput = document.getElementById("taskForm:preprintCartonLabel"); // Asegúrate de que este es el ID correcto
     var ev = new KeyboardEvent('keydown', {
         altKey: false,
         bubbles: true,
@@ -125,7 +155,7 @@ if (skuDataTable) {
     // Crear elemento span para el icono
     var iconSpan = document.createElement('span');
     iconSpan.classList.add('copy-sku-icon');
-    iconSpan.innerHTML = "&nbsp;&nbsp;📋";
+    iconSpan.innerHTML = "&nbsp;&nbsp;↩️";
     iconSpan.style.cursor = "pointer";
     
     // Añadir event listener utilizando IIFE para capturar el valor correcto de skuValue
@@ -830,7 +860,7 @@ function checkAndSendWebhook() {
         const errorMessage = document.querySelector('.ui-messages-error-detail');
         if (errorMessage && errorMessage.textContent.includes('FAILED-No Task Found')) {
             errorMessageShown = true;
-			errorMessage.textContent = 'ERROR: Orden cancelada, entregar a PROBLEM'
+			errorMessage.textContent = 'ERROR: ORDEN CANCELADA, ENTREGAR A RUNNER/PROBLEM'
             const workstation = document.querySelector('input[name="frm_topbar:workstationId"]').value;
             const packingReferenceValue = document.querySelector('input[name="taskForm:packingReference"]').value;
             var orderIDElement = document.querySelector('#taskForm\\:pickedSku_dataTable_data > tr > td:nth-child(2)');
@@ -893,7 +923,7 @@ function createOrUpdatePrintLabel() {
             }
             setTimeout(() => {
                 this.innerHTML = originalText; // Cambia el texto de vuelta después de 0.5 segundos
-            }, 500);
+            }, 700);
         });
 
         // Añade el elemento de texto al contenedor
@@ -902,4 +932,51 @@ function createOrUpdatePrintLabel() {
 }
 // Llama a la función cuando se cargue la página
 createOrUpdatePrintLabel();
+
+
+function crearIconoImpresora() {
+    var inputReferencia = document.getElementById('taskForm:preprintCartonLabel');
+
+    if (!document.getElementById('iconoImpresora') && inputReferencia) {
+        // Envuelve el input en un contenedor si aún no está envuelto
+        var contenedor = inputReferencia.parentNode;
+        if (!contenedor.classList.contains('input-icon-container')) {
+            contenedor = document.createElement('div');
+            contenedor.classList.add('input-icon-container');
+            inputReferencia.parentNode.insertBefore(contenedor, inputReferencia);
+            contenedor.appendChild(inputReferencia);
+            contenedor.style.position = 'relative';
+            contenedor.style.display = 'inline-block'; // Asegura que el contenedor se muestre en línea
+        }
+
+        // Crea el span para el ícono y configura sus propiedades
+        var span = document.createElement('span');
+        span.setAttribute('id', 'iconoImpresora');
+        span.setAttribute('title', 'Print Label');
+        span.className = 'ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only';
+        span.innerHTML = '<span class="ui-button-icon-left ui-icon ui-c fa fa-print"></span><span class="ui-button-text ui-c">Print</span>';
+        span.style.position = 'absolute';
+        span.style.right = '0'; // Ajusta según el padding interno del input
+        span.style.top = '50%';
+        span.style.transform = 'translateY(-50%)'; // Centrar verticalmente
+        span.style.cursor = 'pointer';
+
+        // Añade el evento de clic al span
+        span.onclick = function() {
+            enterPRINT();
+        };
+
+        // Agrega el span al contenedor
+        contenedor.appendChild(span);
+        
+        // Ajusta el padding derecho del input para hacer espacio para el ícono
+        var paddingValue = parseInt(window.getComputedStyle(inputReferencia).paddingRight, 10);
+        inputReferencia.style.paddingRight = `${paddingValue + 30}px`; // Ajusta este valor según sea necesario
+    }
+}
+
+
+
+// Ejecuta la función cada medio segundo
+setInterval(crearIconoImpresora, 500);
 
